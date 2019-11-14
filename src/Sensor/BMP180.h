@@ -10,21 +10,18 @@ enum BMP180_Resolution {
     ULTRA_HIGH_RESOLUTION = 3 // higher resolution, slower, higher current drain
 };
 
-union BMP180_EEPROM {
-    uint16_t _memory[11];
-    struct {
-        int16_t AC1;
-        int16_t AC2;
-        int16_t AC3;
-        uint16_t AC4;
-        uint16_t AC5;
-        uint16_t AC6;
-        int16_t B1;
-        int16_t B2;
-        int16_t MB;
-        int16_t MC;
-        int16_t MD;
-    };
+struct BMP180_EEPROM {
+    int16_t AC1;
+    int16_t AC2;
+    int16_t AC3;
+    uint16_t AC4;
+    uint16_t AC5;
+    uint16_t AC6;
+    int16_t B1;
+    int16_t B2;
+    int16_t MB;
+    int16_t MC;
+    int16_t MD;
 };
 
 class BMP180 {
