@@ -10,18 +10,20 @@ enum BMP180_Resolution {
     ULTRA_HIGH_RESOLUTION = 3 // higher resolution, slower, higher current drain
 };
 
+// Variables have to be prefixed with BMP180 because of a disruptive define in a 
+// library header file.
 struct BMP180_EEPROM {
-    int16_t AC1;
-    int16_t AC2;
-    int16_t AC3;
-    uint16_t AC4;
-    uint16_t AC5;
-    uint16_t AC6;
-    int16_t B1;
-    int16_t B2;
-    int16_t MB;
-    int16_t MC;
-    int16_t MD;
+    int16_t BMP180_AC1;
+    int16_t BMP180_AC2;
+    int16_t BMP180_AC3;
+    uint16_t BMP180_AC4;
+    uint16_t BMP180_AC5;
+    uint16_t BMP180_AC6;
+    int16_t BMP180_B1;
+    int16_t BMP180_B2;
+    int16_t BMP180_MB;
+    int16_t BMP180_MC;
+    int16_t BMP180_MD;
 };
 
 class BMP180 {

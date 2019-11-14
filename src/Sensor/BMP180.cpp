@@ -8,8 +8,8 @@ BMP180::BMP180() {
 float BMP180::getTemperature() {
     int64_t ut, x1, x2, b5, temperature;
     ut = readUncompensatedTemperature();
-    x1 = (ut - m_calibrationParameter.AC6) * m_calibrationParameter.AC5 / 32768;
-    x2 = m_calibrationParameter.MC * 2048 / (x1 + m_calibrationParameter.MD);
+    x1 = (ut - m_calibrationParameter.BMP180_AC6) * m_calibrationParameter.BMP180_AC5 / 32768;
+    x2 = m_calibrationParameter.BMP180_MC * 2048 / (x1 + m_calibrationParameter.BMP180_MD);
     b5 = x1 + x2;
     temperature = (b5 + 8) / 16; // temperature in 0.1 C
     return (float) temperature / 10.f; // temperature in C
@@ -24,18 +24,18 @@ long BMP180::getPressure(BMP180_Resolution resolution) {
     up = readUncompensatedPressure(resolution);
     
     // Calculations taken from the datasheet
-    x1 = (ut - m_calibrationParameter.AC6) * m_calibrationParameter.AC5 / 32768;
-    x2 = m_calibrationParameter.MC * 2048 / (x1 + m_calibrationParameter.MD);
+    x1 = (ut - m_calibrationParameter.BMP180_AC6) * m_calibrationParameter.BMP180_AC5 / 32768;
+    x2 = m_calibrationParameter.BMP180_MC * 2048 / (x1 + m_calibrationParameter.BMP180_MD);
     b5 = x1 + x2;
     b6 = b5 - 4000;
-    x1 = (m_calibrationParameter.B2 * (b6 * b6 / 4096)) / 2048;
-    x2 = m_calibrationParameter.AC2 * b6 / 2048;
+    x1 = (m_calibrationParameter.BMP180_B2 * (b6 * b6 / 4096)) / 2048;
+    x2 = m_calibrationParameter.BMP180_AC2 * b6 / 2048;
     x3 = x1 + x2;
-    b3 = (((m_calibrationParameter.AC1 * 4 + x3) << (int16_t)resolution) + 2) / 4;
-    x1 = m_calibrationParameter.AC3 * b6 / 8192;
-    x2 = (m_calibrationParameter.B1 * (b6 * b6 / 4096)) / 65536;
+    b3 = (((m_calibrationParameter.BMP180_AC1 * 4 + x3) << (int16_t)resolution) + 2) / 4;
+    x1 = m_calibrationParameter.BMP180_AC3 * b6 / 8192;
+    x2 = (m_calibrationParameter.BMP180_B1 * (b6 * b6 / 4096)) / 65536;
     x3 = ((x1 + x2) + 2) / 4;
-    b4 = m_calibrationParameter.AC4 * (uint64_t)(x3 + 32768) / 32768;
+    b4 = m_calibrationParameter.BMP180_AC4 * (uint64_t)(x3 + 32768) / 32768;
     b7 = ((uint64_t)up - b3) * (50000 >> (int16_t)resolution);
     p = (b7 < 0x80000000) ? ((b7 * 2) / b4) : ((b7 / b4) * 2);
     x1 = (p / 256) * (p / 256);
