@@ -32,7 +32,7 @@ public:
     virtual ~BMP180() {}
 
     float getTemperature();
-    float getAltitude();
+    float getAltitude(BMP180_Resolution resolution = STANDARD);
     long getPressure(BMP180_Resolution resolution = STANDARD);
 private:
     static const uint8_t device_address = 0x77;

@@ -1,4 +1,5 @@
 
+#include <math.h>
 #include "BMP180.h"
 
 BMP180::BMP180() {
@@ -44,8 +45,8 @@ long BMP180::getPressure(BMP180_Resolution resolution) {
     return p + (x1 + x2 + 3791) / 16; // pressure in Pa
 }
 
-float BMP180::getAltitude() {
-    return 0.0f;
+float BMP180::getAltitude(BMP180_Resolution resolution) {
+    return 44330 * (1 - pow((double)getPressure(resolution) / (double)pressure_sea_level, 1.0 / 5.255)); // altitude in m relative to the sea level
 }
 
 
