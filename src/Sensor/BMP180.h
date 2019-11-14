@@ -39,7 +39,7 @@ private:
 
     void readCalibrationParameter();
     long readUncompensatedTemperature();
-    long readUncompensatedPressure();
+    long readUncompensatedPressure(BMP180_Resolution resolution);
 };
 
 #endif
