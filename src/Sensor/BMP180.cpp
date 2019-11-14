@@ -6,11 +6,12 @@ BMP180::BMP180() {
 }
 
 float BMP180::getTemperature() {
-    long ut = readUncompensatedTemperature();
-    long x1 = (ut - m_calibrationParameter.AC6) * m_calibrationParameter.AC5 / 32768;
-    long x2 = m_calibrationParameter.MC * 2048 / (x1 + m_calibrationParameter.MD);
-    long b5 = x1 + x2;
-    long temperature = (b5 + 8) / 16; // temperature in 0.1 C
+    int64_t ut, x1, x2, b5, temperature;
+    ut = readUncompensatedTemperature();
+    x1 = (ut - m_calibrationParameter.AC6) * m_calibrationParameter.AC5 / 32768;
+    x2 = m_calibrationParameter.MC * 2048 / (x1 + m_calibrationParameter.MD);
+    b5 = x1 + x2;
+    temperature = (b5 + 8) / 16; // temperature in 0.1 C
     return (float) temperature / 10.f; // temperature in C
 }
 
