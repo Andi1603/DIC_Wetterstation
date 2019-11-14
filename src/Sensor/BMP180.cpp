@@ -2,7 +2,8 @@
 #include <math.h>
 #include "BMP180.h"
 
-BMP180::BMP180() {
+BMP180::BMP180(HW_Connector& connector) 
+    : m_hw_connector(&connector) {
     readCalibrationParameter();
 }
 
@@ -51,13 +52,30 @@ float BMP180::getAltitude(BMP180_Resolution resolution) {
 
 
 void BMP180::readCalibrationParameter() {
-    
+    m_calibrationParameter.BMP180_AC1 = ((uint16_t) m_hw_connector->read_from(0xAA) << 8) + m_hw_connector->read_from(0xAB);
+    m_calibrationParameter.BMP180_AC2 = ((uint16_t) m_hw_connector->read_from(0xAC) << 8) + m_hw_connector->read_from(0xAD);
+    m_calibrationParameter.BMP180_AC3 = ((uint16_t) m_hw_connector->read_from(0xAE) << 8) + m_hw_connector->read_from(0xAF);
+    m_calibrationParameter.BMP180_AC4 = ((uint16_t) m_hw_connector->read_from(0xB0) << 8) + m_hw_connector->read_from(0xB1);
+    m_calibrationParameter.BMP180_AC5 = ((uint16_t) m_hw_connector->read_from(0xB2) << 8) + m_hw_connector->read_from(0xB3);
+    m_calibrationParameter.BMP180_AC6 = ((uint16_t) m_hw_connector->read_from(0xB4) << 8) + m_hw_connector->read_from(0xB5);
+    m_calibrationParameter.BMP180_B1  = ((uint16_t) m_hw_connector->read_from(0xB6) << 8) + m_hw_connector->read_from(0xB7);
+    m_calibrationParameter.BMP180_B2  = ((uint16_t) m_hw_connector->read_from(0xB8) << 8) + m_hw_connector->read_from(0xB9);
+    m_calibrationParameter.BMP180_MB  = ((uint16_t) m_hw_connector->read_from(0xBA) << 8) + m_hw_connector->read_from(0xBB);
+    m_calibrationParameter.BMP180_MC  = ((uint16_t) m_hw_connector->read_from(0xBC) << 8) + m_hw_connector->read_from(0xBD);
+    m_calibrationParameter.BMP180_MD  = ((uint16_t) m_hw_connector->read_from(0xBE) << 8) + m_hw_connector->read_from(0xBF);
 }
 
-long BMP180::readUncompensatedTemperature() {
-    return 0L;
+int64_t BMP180::readUncompensatedTemperature() {
+    m_hw_connector->write_to(0xF4, 0x2E);
+    delay(5); // TODO: replace delay
+    return (int16_t) m_hw_connector->read_from(0xF6) << 8 + m_hw_connector->read_from(0xF7);
 }
 
-long BMP180::readUncompensatedPressure(int16_t resolution) {
-    return 0L;
+int64_t BMP180::readUncompensatedPressure(int16_t oss) {
+    m_hw_connector->write_to(0xF4, 0x34 + (oss << 6));
+    delay(26); // TODO: replace delay and check oss
+    int32_t msb = m_hw_connector->read_from(0xF6);
+    int32_t lsb = m_hw_connector->read_from(0xF7);
+    int32_t xlsb = m_hw_connector->read_from(0xF8);
+    return (msb<<16 + lsb<<8 + xlsb) >> (8-oss);
 }
