@@ -22,7 +22,7 @@ long BMP180::getPressure(BMP180_Resolution resolution) {
     // The uncompensated temperature has to be read in order to compute x1.
     // The datasheet is not clearly stating why this parameter requires the temperature to be read. 
     ut = readUncompensatedTemperature();
-    up = readUncompensatedPressure(resolution);
+    up = readUncompensatedPressure((int16_t)resolution);
     
     // Calculations taken from the datasheet
     x1 = (ut - m_calibrationParameter.BMP180_AC6) * m_calibrationParameter.BMP180_AC5 / 32768;
@@ -58,6 +58,6 @@ long BMP180::readUncompensatedTemperature() {
     return 0L;
 }
 
-long BMP180::readUncompensatedPressure(BMP180_Resolution resolution) {
+long BMP180::readUncompensatedPressure(int16_t resolution) {
     return 0L;
 }
