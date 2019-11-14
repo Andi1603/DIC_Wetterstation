@@ -46,7 +46,7 @@ long BMP180::getPressure(BMP180_Resolution resolution) {
 }
 
 float BMP180::getAltitude(BMP180_Resolution resolution) {
-    return 44330 * (1 - pow((double)getPressure(resolution) / (double)pressure_sea_level, 1.0 / 5.255)); // altitude in m relative to the sea level
+    return 44330 * (1 - pow((double)getPressure((int16_t)resolution) / (double)pressure_sea_level, 1.0 / 5.255)); // altitude in m relative to the sea level
 }
 
 
