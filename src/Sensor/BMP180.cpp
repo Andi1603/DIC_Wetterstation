@@ -50,7 +50,6 @@ float BMP180::getAltitude(BMP180_Resolution resolution) {
     return 44330 * (1 - pow((double)getPressure(resolution) / (double)pressure_sea_level, 1.0 / 5.255)); // altitude in m relative to the sea level
 }
 
-
 void BMP180::readCalibrationParameter() {
     m_calibrationParameter.BMP180_AC1 = ((uint16_t) m_hw_connector->read_from(0xAA) << 8) + m_hw_connector->read_from(0xAB);
     m_calibrationParameter.BMP180_AC2 = ((uint16_t) m_hw_connector->read_from(0xAC) << 8) + m_hw_connector->read_from(0xAD);

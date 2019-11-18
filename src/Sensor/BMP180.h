@@ -14,22 +14,6 @@ enum BMP180_Resolution {
     ULTRA_HIGH_RESOLUTION = 3 // higher resolution, slower, higher current drain
 };
 
-// Variables have to be prefixed with BMP180 because of a disruptive define in a 
-// library header file.
-struct BMP180_EEPROM {
-    int16_t BMP180_AC1;
-    int16_t BMP180_AC2;
-    int16_t BMP180_AC3;
-    uint16_t BMP180_AC4;
-    uint16_t BMP180_AC5;
-    uint16_t BMP180_AC6;
-    int16_t BMP180_B1;
-    int16_t BMP180_B2;
-    int16_t BMP180_MB;
-    int16_t BMP180_MC;
-    int16_t BMP180_MD;
-};
-
 class BMP180 {
 public:
     BMP180(HW_Connector& connector);
@@ -39,6 +23,22 @@ public:
     float getAltitude(BMP180_Resolution resolution = STANDARD);
     long getPressure(BMP180_Resolution resolution = STANDARD);
 private:
+    // Variables have to be prefixed with BMP180 because of a disruptive define in a 
+    // library header file.
+    struct BMP180_EEPROM {
+        int16_t BMP180_AC1;
+        int16_t BMP180_AC2;
+        int16_t BMP180_AC3;
+        uint16_t BMP180_AC4;
+        uint16_t BMP180_AC5;
+        uint16_t BMP180_AC6;
+        int16_t BMP180_B1;
+        int16_t BMP180_B2;
+        int16_t BMP180_MB;
+        int16_t BMP180_MC;
+        int16_t BMP180_MD;
+    };
+
     static const long pressure_sea_level = 101325L;
     BMP180_EEPROM m_calibrationParameter;
     HW_Connector* m_hw_connector;
