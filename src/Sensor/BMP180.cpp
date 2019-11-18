@@ -1,6 +1,6 @@
 
 #include <math.h>
-#include "BMP180.h"
+#include "Sensor/BMP180.h"
 
 BMP180::BMP180(HW_Connector& connector) 
     : m_hw_connector(&connector) {
