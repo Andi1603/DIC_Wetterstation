@@ -67,7 +67,7 @@ void BMP180::readCalibrationParameter() {
 int64_t BMP180::readUncompensatedTemperature() {
     m_hw_connector->write_to(0xF4, 0x2E);
     delay(5); // TODO: replace delay
-    return (int16_t) m_hw_connector->read_from(0xF6) << 8 + m_hw_connector->read_from(0xF7);
+    return ((int16_t) m_hw_connector->read_from(0xF6) << 8) + m_hw_connector->read_from(0xF7);
 }
 
 int64_t BMP180::readUncompensatedPressure(int16_t oss) {
@@ -76,5 +76,5 @@ int64_t BMP180::readUncompensatedPressure(int16_t oss) {
     int32_t msb = m_hw_connector->read_from(0xF6);
     int32_t lsb = m_hw_connector->read_from(0xF7);
     int32_t xlsb = m_hw_connector->read_from(0xF8);
-    return (msb<<16 + lsb<<8 + xlsb) >> (8-oss);
+    return ((msb<<16) + (lsb<<8) + (xlsb)) >> (8-oss);
 }
