@@ -13,6 +13,6 @@ void setup() {
 }
 
 void loop() {
-    Serial.printf("%.1f\t\t\t|\t%ld\t\t|\t%.2f\n", sensor->getTemperature(), sensor->getPressure(), sensor->getAltitude());
+    Serial.printf("%.1f\t\t\t|\t%ld\t\t|\t%.2f\n", sensor->getTemperature(), sensor->getPressure(BMP180_Resolution::ULTRA_HIGH_RESOLUTION), sensor->getAltitude(BMP180_Resolution::ULTRA_HIGH_RESOLUTION));
     delay(1000);
 }
