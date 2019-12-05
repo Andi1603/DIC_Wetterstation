@@ -1,5 +1,5 @@
 
-#include "Timer/hw_timer.h"
+#include "Timer/HW_Timer.h"
 
 uint8_t HW_Timer::_counter = 0;  // initialisation of _counter
 hw_timer_t * HW_Timer::_timer = NULL;
