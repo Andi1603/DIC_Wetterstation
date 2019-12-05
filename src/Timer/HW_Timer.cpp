@@ -12,7 +12,7 @@ SemaphoreHandle_t HW_Timer::xBinarySemaphore;  // global var
 
 
 // child process
-void HW_Timer::HW_Timer::processTimer( void * parameter = 0 )
+void HW_Timer::HW_Timer::processTimer( void * parameter)
 {
 	Serial.printf( "Start child process<%s>\n", __FUNCTION__ );
 	// endless loop

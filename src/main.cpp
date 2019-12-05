@@ -1,18 +1,20 @@
 #include <Arduino.h>
-#include "I2C/I2C_Connector.h"
-#include "Sensor/BMP180.h"
+#include <ArduinoLog.h>
 
-BMP180* sensor;
+#include "I2C/I2C_Helper.h"
+#include "I2C/I2C_Connector.h"
+#include "Timer/HW_Timer.h"
+
+bool temp_sensor_available = false;
 
 void setup() {
-    Serial.begin(9600);
-
-    HW_Connector* connector = new I2C_Connector(0, BMP180_DEVICE_ADD);
-    sensor = new BMP180(*connector);
-    Serial.println("Temperature [°C]\t|\tPressure [Pa]\t|\tAltitude [m]");
+  
+  Serial.begin(115200);
+  Log.begin(LOG_LEVEL_VERBOSE, &Serial, true);
+  HW_Timer::initialize(HW_Timer::HW_TIMER_INDEX::TIMER1);   // 1s timer
 }
 
 void loop() {
-    Serial.printf("%.1f\t\t\t|\t%ld\t\t|\t%.2f\n", sensor->getTemperature(), sensor->getPressure(BMP180_Resolution::ULTRA_HIGH_RESOLUTION), sensor->getAltitude(BMP180_Resolution::ULTRA_HIGH_RESOLUTION));
-    delay(1000);
+  // put your main code here, to run repeatedly:
+  delay(100);
 }
